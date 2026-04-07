@@ -126,6 +126,8 @@ body::before {
   z-index: 1;
 }
 
+.piece-kaiona.interactive { cursor: pointer; }
+
 /* ── 4 outer pieces — evenly spaced at 90° apart ──────── */
 /* orbit_r=42%, outer_sz=26%, 90° apart                   */
 .piece-mauli-ola {
@@ -150,7 +152,7 @@ body::before {
   width: 34%; height: 34%;
   top: 33%; left: 33%;
   z-index: 10;
-  pointer-events: none;
+  pointer-events: none !important;
   animation: iwa-float 4s ease-in-out infinite;
 }
 
@@ -238,7 +240,7 @@ body::before {
     <div class="kf-diagram" id="kfDiagram">
 
       <!-- Center -->
-      <div class="piece piece-kaiona">
+      <div class="piece piece-kaiona interactive" data-key="center">
         <img src="kaiona.svg" alt="Kaiona">
       </div>
 
@@ -279,6 +281,11 @@ body::before {
       <div class="kf-info-ornament"></div>
       <div class="kf-info-name" id="kfInfoName"></div>
       <div class="kf-info-desc" id="kfInfoDesc"></div>
+      <div id="kfInfoSecond" style="display:none;">
+        <div style="height:1px; background: linear-gradient(90deg, rgba(161,24,17,.25), transparent); margin: 14px 0;"></div>
+        <div class="kf-info-name" id="kfInfoName2"></div>
+        <div class="kf-info-desc" id="kfInfoDesc2"></div>
+      </div>
     </div>
 
   </div><!-- /.kf-layout -->
@@ -288,36 +295,37 @@ body::before {
 const SECTIONS = {
   'mauli-ola': {
     label: 'Mauli Ola',
-    description: 'MAʻO Farm: Building capacity and well-being through social enterprise in order to build a future of mā ona, of plenty, by connecting youth and land through daily practice of aloha ʻāina.'
+    description: 'Balance and harmony between kanaka, akua, and ʻāina.'
   },
   'ea': {
     label: 'Ea',
-    description: 'Kaʻala Farm: Reclaiming and preserving the living culture of the poʻe kahiko (people of old) in order to strengthen the kinship relationships between ʻāina and all forms of life.'
-  },
-  'piko': {
-    label: 'Piko',
-    description: 'This symbolizes the birth and being of kānaka throughout time, from our kūpuna, to us, and to our keiki. This embodies the layers of Kaiāulu — kama, ʻohana nui, kaiāulu, and lāhui — as the entire framework is contained within one piko of our lāhui.'
+    description: 'Self-determination and agency. The movement of makani that refreshes, motivates, and liberates growth.'
   },
   'pilina': {
     label: 'Pilina',
-    description: 'Hoa ʻĀina O Mākaha creates peaceful communities in harmony with nature by focusing on community self-reliance and supporting families on the Waiʻanae Coast.'
-  },
-  'iwa': {
-    label: 'ʻIwa',
-    description: 'The ʻiwa is a symbol of the guidance of our moʻolelo which contains the essence of our culture. Kaiona, the akua who resides atop Mauna Kaʻala, sends her iwa to guide lost travelers, just as our moʻolelo guide us toward the timeless values, ideals, and principles of our lāhui.'
+    description: 'Interwoven relationships that sustain and strengthen community.'
   },
   'waiwai': {
     label: 'Waiwai',
-    description: 'E Ala Voyaging Academy: Empowering and uniting our community by preserving and celebrating traditional Hawaiian practices, especially traditional navigational practices with E Ala waʻa, a 45 foot double-hulled canoe birthed out of Pokaʻi.'
+    description: 'Ancestral abundance that nourishes our well-being today.'
+  },
+  'center': {
+    entries: [
+      { label: 'Piko', description: 'Continuity from kupuna to keiki — all generations connected.' },
+      { label: 'ʻIwa', description: 'The great frigate bird who guides the lost home. Guidance rooted in moʻolelo and cultural navigation.' }
+    ]
   }
 };
 
-const pieces    = document.querySelectorAll('.piece.interactive');
-const infoPanel = document.getElementById('kfInfo');
-const infoName  = document.getElementById('kfInfoName');
-const infoDesc  = document.getElementById('kfInfoDesc');
-let activeKey   = null;
-let leaveTimer  = null;
+const pieces     = document.querySelectorAll('.piece.interactive');
+const infoPanel  = document.getElementById('kfInfo');
+const infoName   = document.getElementById('kfInfoName');
+const infoDesc   = document.getElementById('kfInfoDesc');
+const infoSecond = document.getElementById('kfInfoSecond');
+const infoName2  = document.getElementById('kfInfoName2');
+const infoDesc2  = document.getElementById('kfInfoDesc2');
+let activeKey    = null;
+let leaveTimer   = null;
 
 function activate(key) {
   clearTimeout(leaveTimer);
@@ -328,8 +336,17 @@ function activate(key) {
     p.classList.add(p.dataset.key === key ? 'active-glow' : 'dimmed');
   });
   const s = SECTIONS[key];
-  infoName.textContent = s.label;
-  infoDesc.textContent = s.description;
+  if (s.entries) {
+    infoName.textContent = s.entries[0].label;
+    infoDesc.textContent = s.entries[0].description;
+    infoName2.textContent = s.entries[1].label;
+    infoDesc2.textContent = s.entries[1].description;
+    infoSecond.style.display = '';
+  } else {
+    infoName.textContent = s.label;
+    infoDesc.textContent = s.description;
+    infoSecond.style.display = 'none';
+  }
   infoPanel.classList.add('visible');
 }
 
