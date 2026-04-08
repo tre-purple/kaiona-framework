@@ -10,13 +10,18 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+html {
+  overflow: hidden;
+}
+
 body {
   background: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  padding: 32px 24px;
+  height: 100vh;
+  overflow: hidden;
+  padding: 52px 48px;
   font-family: 'Inter', sans-serif;
   position: relative;
 }
@@ -39,10 +44,17 @@ body::before {
   max-width: 1080px;
 }
 
-.kf-header { display: none; }
+.kf-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
 
 .kf-explore-hint {
-  margin-top: 18px;
+  margin-top: 22px;
   font-size: 11px;
   color: rgba(255,255,255,0.45);
   letter-spacing: 0.1em;
@@ -53,19 +65,23 @@ body::before {
 }
 
 .kf-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(24px, 4vw, 48px);
-  letter-spacing: 0.14em;
-  color: #111;
-  line-height: 1;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: clamp(16px, 2.2vw, 28px);
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  line-height: 1.1;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.5);
 }
 
 .kf-hint {
-  font-size: 11px;
-  color: #aaa;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(10px, 1vw, 13px);
+  font-weight: 400;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 0.04em;
   margin-top: 6px;
+  font-style: italic;
 }
 
 /* ── Main layout ─────────────────────────────────────── */
@@ -80,7 +96,7 @@ body::before {
 .kf-diagram {
   position: relative;
   flex-shrink: 0;
-  width: min(720px, 90vw);
+  width: min(660px, 88vw, calc(100vh - 260px));
   aspect-ratio: 1 / 1;   /* perfect square */
 }
 
@@ -327,8 +343,8 @@ body::before {
 
 <div class="kf-root">
   <div class="kf-header">
-    <h1 class="kf-title">Kaiona Framework</h1>
-    <p class="kf-hint">Hover over each element to explore</p>
+    <h1 class="kf-title">He lokomaikaʻi ka manu o Kaiona</h1>
+    <p class="kf-hint">Kind is the bird of Kaiona</p>
   </div>
 
   <div class="kf-layout">
@@ -386,7 +402,7 @@ body::before {
 
   </div><!-- /.kf-layout -->
 
-  <p class="kf-explore-hint">Hover over the framework to explore</p>
+  <p class="kf-explore-hint">Hover over the Kaiona Framework To Explore</p>
 </div>
 
 <script>
